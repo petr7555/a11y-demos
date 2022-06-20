@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Aria disabled</title>
+    <style>
+        [aria-disabled="true"] {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+    </style>
+  </head>
+  <!-- Related docs: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-disabled -->
+  <body>
+    <button disabled onClick="alert('clicked')">With HTML disabled</button>
+    <button id="btn" aria-disabled="true">The element is now disabled.</button>
+    <button id="toggle">Disable/Enable</button>
+  </body>
+  <script>
+      function onClick() {
+          alert('clicked');
+      }
+
+      function toggleDisabled(element, update) {
+          const disabled = element.ariaDisabled === 'true';
+          if (disabled) {
+              element.setAttribute('aria-disabled', 'false');
+              update.textContent = 'The element is now enabled.';
+              element.addEventListener('click', onClick);
+          } else {
+              element.setAttribute('aria-disabled', 'true');
+              update.textContent = 'The element is now disabled.';
+              element.removeEventListener('click', onClick);
+          }
+      }
+
+      const toggle = document.getElementById('toggle');
+      const btn = document.getElementById('btn');
+      toggle.addEventListener('click', () => {
+          toggleDisabled(btn, btn);
+      });
+  </script>
+</html>
